@@ -1,0 +1,4 @@
+name: DeathHolding
+version: '${project.version}'
+main: me.akagiant.deathholding.Main
+api-version: 1.18
