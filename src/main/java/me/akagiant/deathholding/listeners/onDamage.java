@@ -30,59 +30,48 @@ public class onDamage implements Listener {
     public void onDamage(EntityDamageByEntityEvent e) {
         // Ensures the damage is done by a player, to a player
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
-
             Player target = (Player) e.getEntity();
 
-            Location loc = target.getLocation();
-            loc.setY(loc.getY() + 2);
-
             if (target.getHealth() - e.getDamage() <= 0) {
-
-                ArmorStand am = getTagStand(target.getWorld(), target.getLocation().add(0, -2, 0), "lol");
-                ArmorStand am2 = getTagStand(target.getWorld(), target.getLocation(), null);
-
-                stands.put(target, am);
-                stands.put(target, am2);
-
                 if (dyingPlayers.contains(target)) {
                     target.setHealth(0);
-                    am2.remove();
-                    am.remove();
                     target.setGlowing(false);
                     dyingPlayers.remove(target);
                     return;
                 }
 
-
+                e.setCancelled(true);
                 dyingPlayers.add(target);
 
-                e.setCancelled(true);
+                target.setGlowing(true);
                 target.setHealth(0.5);
                 target.playSound(target.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
                 target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1300, 10));
                 target.sendMessage("You should have died but I saved you... for now.");
-                am.addPassenger(target);
 
-                target.setGlowing(true);
+                ArmorStand am = getTagStand(target.getWorld(), target.getLocation().add(0, 1.5, 0), "lol");
+                ArmorStand am2 = getTagStand(target.getWorld(), target.getLocation(), null);
+
+                am2.addPassenger(target);
 
                 new DeathTimer(60, Main.getPlugin()) {
                     @Override
                     public void count(int current) {
                         if (!dyingPlayers.contains(target)) {
+                            am.remove();
+                            am2.remove();
                             task.cancel();
                         }
                         target.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("Time Remaining: " + current + " seconds!"));
+                        if (current == 0) {
+                            am.remove();
+                            am2.remove();
+                            target.setHealth(0);
+                            target.setGlowing(false);
+                        }
+
                     }
                 }.start();
-
-                BukkitScheduler scheduler = Bukkit.getScheduler();
-                scheduler.scheduleSyncDelayedTask(Main.getPlugin(), () -> {
-                    am.remove();
-                    am2.remove();
-                    target.setHealth(0);
-                    target.setGlowing(false);
-                }, 1200);
-
             }
         }
     }
@@ -92,7 +81,7 @@ public class onDamage implements Listener {
         ArmorStand am = (ArmorStand) world.spawnEntity(loc, EntityType.ARMOR_STAND);
 
         if (name != null) {
-            am.setCustomName("ashnfklanmf");
+            am.setCustomName(name);
             am.setCustomNameVisible(true);
         }
 
@@ -100,7 +89,7 @@ public class onDamage implements Listener {
         am.setInvisible(true);
         am.setSmall(true);
         am.setMarker(true);
-        am.setInvulnerable(true);
+        am.setInvulnerable(false);
 
         return am;
     }
