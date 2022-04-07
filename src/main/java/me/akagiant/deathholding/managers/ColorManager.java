@@ -22,7 +22,7 @@ public class ColorManager {
             }
             return ChatColor.translateAlternateColorCodes('&', msg);
         }
-        return null;
+        return msg;
     }
 
 }

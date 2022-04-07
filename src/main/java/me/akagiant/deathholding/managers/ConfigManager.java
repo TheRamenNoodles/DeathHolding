@@ -1,4 +1,4 @@
-package me.akagiant.deathholding.files;
+package me.akagiant.deathholding.managers;
 
 import me.akagiant.deathholding.managers.ConsoleManager;
 import org.bukkit.Bukkit;
@@ -58,7 +58,7 @@ public class ConfigManager {
 
     public void reloadConfig() {
         if (!exists()) {
-            ConsoleManager.ErrorToConsole(plugin.getName(), file.getName() + ".yml does not exist!");
+            Bukkit.getLogger().severe(file.getName() + ".yml does not exist!");
             return;
         }
         config = YamlConfiguration.loadConfiguration(file);

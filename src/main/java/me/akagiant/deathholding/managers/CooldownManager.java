@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CooldownManager {
 
     private final HashMap<UUID, Long> cooldowns = new HashMap<>();
-    public static final Long COOLDOWN = Main.config.getConfig().getLong("Revival.Cooldown");
+    public static final Long COOLDOWN = Main.config.getConfig().getLong("Revival.Cooldown.Time");
 
     public void setCooldown (Player player, Long time) {
         if (player.hasPermission("DeathHolding.Cooldown.Bypass")) return;

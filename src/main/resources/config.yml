@@ -1,0 +1,39 @@
+# All messages can contain standard chat color features and HEX Colors
+
+Revival:
+  # The Health a player should have when revived
+  Health: 6
+  # The Sound played when a player is revived
+  # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+  SoundEffects:
+    Sound1: ENTITY_PLAYER_LEVELUP
+  # The potion effect given to a player when revived
+  # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+  PotionEffects:
+    Effect1:
+      Type: REGENERATION
+      Duration: 5
+      Strength: 3
+  Item:
+    isCustom: false
+    # If isCustom is set to false, custom-item will be ignored and the default-item will be used.
+    # You can use the command /revival give %target% %amount% to spawn in a custom revival item
+    custom-item:
+      displayName: "REVIVAL APPLE"
+      lore:
+        - " "
+        - "&7Right-Click Someone to revive them"
+      isEnchanted: true
+    default-item: GOLDEN_APPLE
+  Message:
+    # The message sent to the user that REVIVED someone
+    toReviver:
+      - "You revived %target_name%"
+    # The message sent to the user that WAS revived
+    toTarget:
+      - "You have been revived by %player_name%"
+  # How long should a user have to wait before being able to revive someone
+  Cooldown:
+    Time: 30
+    Message:
+      - "Cooldown: %player_cooldown%"

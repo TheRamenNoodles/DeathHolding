@@ -6,14 +6,11 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ArmorStandManager {
 
-    private static final HashMap<ArmorStand, Player> stands = new HashMap<>();
+    private static final HashMap<ArmorStand, UUID> stands = new HashMap<>();
 
     static ArmorStand createStand(Player player, Location loc, String name) {
         World world = player.getWorld();
@@ -31,7 +28,7 @@ public class ArmorStandManager {
         am.setMarker(true);
         am.setInvulnerable(false);
 
-        stands.put(am, player);
+        stands.put(am, player.getUniqueId());
 
         return am;
     }
@@ -48,8 +45,8 @@ public class ArmorStandManager {
     static List<ArmorStand> getStands(Player player) {
         List<ArmorStand> playerStands = new ArrayList<>();
 
-        for (Map.Entry<ArmorStand, Player> entry : stands.entrySet()) {
-            if (entry.getValue().equals(player)) {
+        for (Map.Entry<ArmorStand, UUID> entry : stands.entrySet()) {
+            if (entry.getValue().equals(player.getUniqueId())) {
                 playerStands.add(entry.getKey());
             }
 

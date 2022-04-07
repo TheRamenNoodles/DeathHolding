@@ -3,6 +3,8 @@ version: '${project.version}'
 main: me.akagiant.deathholding.Main
 api-version: 1.18
 
+softdepend: [PlaceholderAPI]
+
 permissions:
   DeathHolding.Revive:
     description: Bypass the revival stage of this plugin.
