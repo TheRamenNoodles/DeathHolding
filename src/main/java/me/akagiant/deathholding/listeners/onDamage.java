@@ -3,6 +3,7 @@ package me.akagiant.deathholding.listeners;
 import me.akagiant.deathholding.DeathTimer;
 import me.akagiant.deathholding.Main;
 
+import me.akagiant.deathholding.managers.DeathManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -33,65 +34,15 @@ public class onDamage implements Listener {
             Player target = (Player) e.getEntity();
 
             if (target.getHealth() - e.getDamage() <= 0) {
-                if (dyingPlayers.contains(target)) {
-                    target.setHealth(0);
-                    target.setGlowing(false);
-                    dyingPlayers.remove(target);
+                if (DeathManager.dyingPlayers.contains(target)) {
+                    DeathManager.killPlayer(target);
                     return;
                 }
 
                 e.setCancelled(true);
-                dyingPlayers.add(target);
 
-                target.setGlowing(true);
-                target.setHealth(0.5);
-                target.playSound(target.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
-                target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1300, 10));
-                target.sendMessage("You should have died but I saved you... for now.");
-
-                ArmorStand am = getTagStand(target.getWorld(), target.getLocation().add(0, 1.5, 0), "lol");
-                ArmorStand am2 = getTagStand(target.getWorld(), target.getLocation(), null);
-
-                am2.addPassenger(target);
-
-                new DeathTimer(60, Main.getPlugin()) {
-                    @Override
-                    public void count(int current) {
-                        if (!dyingPlayers.contains(target)) {
-                            am.remove();
-                            am2.remove();
-                            task.cancel();
-                        }
-                        target.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("Time Remaining: " + current + " seconds!"));
-                        if (current == 0) {
-                            am.remove();
-                            am2.remove();
-                            target.setHealth(0);
-                            target.setGlowing(false);
-                        }
-
-                    }
-                }.start();
+                DeathManager.enterDying(target);
             }
         }
     }
-
-
-    static ArmorStand getTagStand(World world, Location loc, String name) {
-        ArmorStand am = (ArmorStand) world.spawnEntity(loc, EntityType.ARMOR_STAND);
-
-        if (name != null) {
-            am.setCustomName(name);
-            am.setCustomNameVisible(true);
-        }
-
-        am.setGravity(false);
-        am.setInvisible(true);
-        am.setSmall(true);
-        am.setMarker(true);
-        am.setInvulnerable(false);
-
-        return am;
-    }
-
 }

@@ -1,5 +1,6 @@
 package me.akagiant.deathholding.listeners;
 
+import me.akagiant.deathholding.managers.DeathManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,10 +18,8 @@ public class onInteract implements Listener {
         if (e.getRightClicked() instanceof Player) {
             if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.GOLDEN_APPLE) {
                 Player target = (Player) e.getRightClicked();
-                if (onDamage.dyingPlayers.contains(target)) {
-                    onDamage.dyingPlayers.remove(target);
-                    target.setGlowing(false);
-                    target.sendMessage("You have been revived by " + e.getPlayer());
+                if (DeathManager.dyingPlayers.contains(target)) {
+                    DeathManager.revivePlayer(target, e.getPlayer());
                 }
             }
         }

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ArmorStandManager {
 
-    static HashMap<Player, ArmorStand> stands = new HashMap<>();
+    private static final HashMap<ArmorStand, Player> stands = new HashMap<>();
 
     static ArmorStand createStand(Player player, Location loc, String name) {
         World world = player.getWorld();
@@ -26,12 +26,12 @@ public class ArmorStandManager {
         }
 
         am.setGravity(false);
-        am.setInvisible(true);
+        am.setInvisible(false);
         am.setSmall(true);
         am.setMarker(true);
         am.setInvulnerable(false);
 
-        stands.put(player, am);
+        stands.put(am, player);
 
         return am;
     }
@@ -48,13 +48,20 @@ public class ArmorStandManager {
     static List<ArmorStand> getStands(Player player) {
         List<ArmorStand> playerStands = new ArrayList<>();
 
-        for (Map.Entry<Player, ArmorStand> entry : stands.entrySet()) {
-            if (entry.getKey().equals(player)) {
-                playerStands.add(entry.getValue());
+        for (Map.Entry<ArmorStand, Player> entry : stands.entrySet()) {
+            if (entry.getValue().equals(player)) {
+                playerStands.add(entry.getKey());
             }
 
         }
         return playerStands;
+    }
+
+    public static void removeStands(Player player) {
+        List<ArmorStand> playerStands = getStands(player);
+        for (ArmorStand stand : playerStands) {
+            stand.remove();
+        }
     }
 
 }

@@ -1,7 +1,5 @@
 package me.akagiant.deathholding;
 
-import me.akagiant.deathholding.commands.command_clear;
-import me.akagiant.deathholding.commands.command_reset;
 import me.akagiant.deathholding.files.ConfigManager;
 import me.akagiant.deathholding.listeners.onDamage;
 import me.akagiant.deathholding.listeners.onDeath;
@@ -24,9 +22,6 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onDismount(), this);
         getServer().getPluginManager().registerEvents(new onDeath(), this);
         getServer().getPluginManager().registerEvents(new onInteract(), this);
-
-        getCommand("reset").setExecutor(new command_reset(this));
-        getCommand("clear").setExecutor(new command_clear(this));
     }
 
     @Override
