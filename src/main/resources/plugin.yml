@@ -5,7 +5,26 @@ api-version: 1.18
 
 softdepend: [PlaceholderAPI]
 
+commands:
+  dh:
+    aliases:
+      - DeathHolding
+
 permissions:
+  DeathHolding.*:
+    description: All DeathHolding Permissions
+    default: op
+    children:
+      DeathHolding.Revive: true
+      DeathHolding.Bypass: true
+      DeathHolding.Cooldown.Bypass: true
+      DeathHolding.Reload: true
+      DeathHolding.Give: true
+
+  DeathHolding.Reload:
+    description: Allows the user to reload this plugins config.yml
+  DeathHolding.Give:
+    description: Allows the user to give themselves or another user a revival item.
   DeathHolding.Revive:
     description: Bypass the revival stage of this plugin.
   DeathHolding.Bypass:
