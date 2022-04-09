@@ -30,6 +30,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                 return true;
             }
 
+
             // USAGE: /dh reload
             // USAGE: /dh give %player% %amt%
 
@@ -41,6 +42,9 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
             }
 
             switch (args[0]) {
+                case "clear":
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=minecraft:armor_stand, tag=deathholding]");
+                    break;
                 case "give":
                     if (args.length >= 2) {
                         Player target = Bukkit.getPlayer(args[1]);
@@ -71,12 +75,12 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
     }
 
 
-
     void sendUsage(Player player) {
         player.sendMessage("-------------");
         player.sendMessage("Death Holding Usage");
         player.sendMessage(" ");
         player.sendMessage("Reload: /dh reload" );
+        player.sendMessage("Clear: /dh clear" );
         player.sendMessage("Give: /dh give <player> (amount)");
         player.sendMessage("   Required: <player> | The target of this command ");
         player.sendMessage("   Optional: (amount) | The amount of revival items \n   to give to a player ");
@@ -104,6 +108,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             arguments.add("reload");
             arguments.add("give");
+            arguments.add("clear");
 
             for (String arg : arguments) {
                 if (arg.toLowerCase().startsWith(args[0].toLowerCase())) {
@@ -113,7 +118,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
             return result;
         }
 
-        if (args.length == 2 && args[0].equals("reload")) {
+        if (args.length == 2 && args[0].equals("reload") || args[0].equals("clear")) {
             arguments.clear();
             result.clear();
             return result;
