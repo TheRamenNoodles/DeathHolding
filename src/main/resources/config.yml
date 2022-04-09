@@ -23,11 +23,11 @@ Revival:
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
   PotionEffects:
     Effect1:
-      Type: REGENERATION
+      Type: "REGENERATION"
       Duration: 5
       Strength: 2
     Effect2:
-      Type: SPEED
+      Type: "SPEED"
       Duration: 3
       Strengt: 10
   Item:
@@ -35,13 +35,13 @@ Revival:
     # If isCustom is set to false, custom-item will be ignored and the default-item will be used.
     # You can use the command /revival give %target% %amount% to spawn in a custom revival item
     custom-item:
-      type: GOLDEN_CARROT
+      type: "GOLDEN_CARROT"
       displayName: "&a&lREVIVAL APPLE"
       lore:
         - " "
         - "&7&oRight-Click Someone to revive them"
       isEnchanted: true
-    default-item: GOLDEN_APPLE
+    default-item: "GOLDEN_APPLE"
   Message:
     # The message sent to the user that REVIVED someone
     toReviver:
@@ -56,7 +56,7 @@ Revival:
       - "Cooldown: %player_cooldown%"
 Dying:
   # The title above a player when they are dying
-  Title: "&8[&c&lDYING&8] &f%player_name%"
+  Title: "&8[&c&lDYING&8] &f"
   # How long should a player be "dying" for (seconds)
   TimeToRevive: 60
   # The Health a player should have when they go into the dying state
@@ -64,12 +64,12 @@ Dying:
   # The Sound played when a player is put into the dying state
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
   SoundEffects:
-    Sound1: ITEM_TOTEM_USE
+    Sound1: "ITEM_TOTEM_USE"
   # The potion effect given to a player when revived
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
   # Potion effects are removed if a player dies or is revived from the dying state.
   PotionEffects:
     Effect1:
-      Type: BLINDNESS
+      Type: "BLINDNESS"
       Duration: 60
       Strength: 100

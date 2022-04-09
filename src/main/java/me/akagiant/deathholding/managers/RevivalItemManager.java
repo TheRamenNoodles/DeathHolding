@@ -2,7 +2,6 @@ package me.akagiant.deathholding.managers;
 
 import me.akagiant.deathholding.Main;
 import me.akagiant.deathholding.managers.general.ColorManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -71,7 +70,5 @@ public class RevivalItemManager {
             player.getInventory().addItem(createRevivalItem(amount));
         else
             player.getInventory().addItem(new ItemStack(Material.valueOf(Main.config.getConfig().getString("Revival.Item.default-item")), amount));
-
     }
-
 }

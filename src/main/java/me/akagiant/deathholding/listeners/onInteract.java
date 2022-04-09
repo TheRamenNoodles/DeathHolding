@@ -6,12 +6,15 @@ import me.akagiant.deathholding.managers.DyingManager;
 import me.akagiant.deathholding.managers.RevivalItemManager;
 import me.akagiant.deathholding.managers.general.MessageManager;
 
+import me.akagiant.deathholding.managers.general.PermissionManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -36,7 +39,6 @@ public class onInteract implements Listener {
             String material = useCustomItem ? config.getString(path + ".custom-item.type") : config.getString(path + ".default-item");
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
-
             if (useCustomItem && item.getType() == Material.valueOf(material)) {
                 ItemMeta meta = item.getItemMeta();
                 if (meta == null) return;
@@ -45,23 +47,29 @@ public class onInteract implements Listener {
                 List<String> requiredItemLore = config.getStringList(path + ".lore");
 
                 if (meta.getDisplayName().equals(requiredItemName) && Objects.equals(meta.getLore(), requiredItemLore)) {
-                    execute((Player) e.getRightClicked(), e.getPlayer());
+                    execute(Objects.requireNonNull(((Player) e.getRightClicked()).getPlayer()), e.getPlayer());
                 }
             } else {
                 if (item.getType().equals(Material.valueOf(material))) {
-                    execute((Player) e.getRightClicked(), e.getPlayer());
+                    execute(((Player) e.getRightClicked()).getPlayer(), e.getPlayer());
                 }
             }
         }
     }
 
     public void execute(Player target, Player reviver) {
+
+        if (!reviver.hasPermission("DeathHolding.Revive")) {
+            PermissionManager.NoPermission(reviver, "DeathHolding.Revive");
+            return;
+        };
+
         if (DyingManager.dyingPlayers.contains(target.getUniqueId())) {
             long timeLeft = System.currentTimeMillis() - cooldownManager.getCooldwon(reviver.getUniqueId());
             if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= CooldownManager.COOLDOWN) {
-                RevivalItemManager.consumeRevivalItem(reviver);
                 DyingManager.revivePlayer(target, reviver);
                 cooldownManager.setCooldown(reviver, System.currentTimeMillis());
+                RevivalItemManager.consumeRevivalItem(reviver);
             } else {
                 for (String str : Main.config.getConfig().getStringList("Revival.Cooldown.Message")) {
                     reviver.sendMessage(MessageManager.internalPlaceholders(reviver, null, str));
@@ -73,6 +81,13 @@ public class onInteract implements Listener {
     @EventHandler
     public void onDismount(EntityDismountEvent e) {
         if (e.getEntity() instanceof Player && e.getDismounted().getType().equals(EntityType.ARMOR_STAND) && DyingManager.dyingPlayers.contains(Objects.requireNonNull(((Player) e.getEntity()).getPlayer()).getUniqueId())) e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        if (DyingManager.dyingPlayers.contains(Objects.requireNonNull(e.getEntity().getPlayer()).getUniqueId())) {
+            e.setDeathMessage("");
+        }
     }
 
 }

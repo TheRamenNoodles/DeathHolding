@@ -10,6 +10,8 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -34,11 +36,14 @@ public class DyingManager {
      */
     public static void enterDying(Player player, Player killer) {
 
-        if (player.hasPermission("DeathHolding.Bypass")) return;
+        if (player.hasPermission("DeathHolding.Bypass")) {
+            player.setHealth(0);
+            return;
+        }
 
         dyingPlayers.add(player.getUniqueId());
 
-        deathTimer(player);
+        deathTimer(player, killer);
 
         // START | Add effects to player
         player.setGlowing(true);
@@ -57,7 +62,6 @@ public class DyingManager {
     }
 
     public static void revivePlayer(Player target, Player reviver) {
-        if (!reviver.hasPermission("DeathHolding.Revive")) return;
 
         clearEffects(target);
         ArmorStandManager.removeStands(target);
@@ -101,7 +105,8 @@ public class DyingManager {
         }
     }
 
-    public static void killPlayer(Player target) {
+    public static void killPlayer(Player target, Player killer) {
+        Bukkit.broadcastMessage(target.getName() + " was killed by " + killer.getName());
         target.setHealth(0);
         clearEffects(target);
         ArmorStandManager.removeStands(target);
@@ -113,7 +118,7 @@ public class DyingManager {
         player.setGlowing(false);
     }
 
-    static void deathTimer(Player player) {
+    static void deathTimer(Player player, Player killer) {
         int time = Main.config.getConfig().getInt("Dying.TimeToRevive");
         ArmorStand am = ArmorStandManager.createStand(player, player.getLocation().add(0, 2, 0), null);
         am.setCustomNameVisible(true);
@@ -129,7 +134,7 @@ public class DyingManager {
                 am.setCustomName(ColorManager.format(Main.config.getConfig().getString("Dying.Title") + " " + current).replace("%player_name%", player.getName()));
 
                 if (current == 0) {
-                    killPlayer(player);
+                    killPlayer(player, killer);
                 }
 
             }
