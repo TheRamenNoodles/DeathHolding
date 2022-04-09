@@ -1,5 +1,8 @@
-package me.akagiant.deathholding.managers;
+package me.akagiant.deathholding.managers.general;
 
+import me.akagiant.deathholding.managers.CooldownManager;
+import me.akagiant.deathholding.managers.DyingManager;
+import me.akagiant.deathholding.managers.general.ColorManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

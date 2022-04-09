@@ -1,5 +1,7 @@
-package me.akagiant.deathholding.managers;
+package me.akagiant.deathholding.managers.general;
 
+import me.akagiant.deathholding.managers.CooldownManager;
+import me.akagiant.deathholding.managers.DyingManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
