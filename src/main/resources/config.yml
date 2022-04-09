@@ -18,7 +18,7 @@ Revival:
       Type: SPEED
       Duration: 3
       Strengt: 10
-  Itemit:
+  Item:
     isCustom: false
     # If isCustom is set to false, custom-item will be ignored and the default-item will be used.
     # You can use the command /revival give %target% %amount% to spawn in a custom revival item

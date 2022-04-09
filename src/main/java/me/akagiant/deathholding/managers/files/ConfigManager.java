@@ -1,6 +1,5 @@
-package me.akagiant.deathholding.managers;
+package me.akagiant.deathholding.managers.files;
 
-import me.akagiant.deathholding.managers.ConsoleManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

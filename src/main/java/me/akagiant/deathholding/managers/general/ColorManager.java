@@ -1,8 +1,10 @@
-package me.akagiant.deathholding.managers;
+package me.akagiant.deathholding.managers.general;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +25,17 @@ public class ColorManager {
             return ChatColor.translateAlternateColorCodes('&', msg);
         }
         return msg;
+    }
+
+    public static List<String> format(List<String> msg) {
+
+        List<String> formatted = new ArrayList<>();
+
+        for (String str : msg) {
+            formatted.add(format(str));
+        }
+
+        return formatted;
     }
 
 }

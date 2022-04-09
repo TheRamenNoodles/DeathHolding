@@ -1,9 +1,10 @@
 package me.akagiant.deathholding;
 
-import me.akagiant.deathholding.managers.ConfigManager;
+import me.akagiant.deathholding.commands.command_deathholding;
+import me.akagiant.deathholding.managers.files.ConfigManager;
 import me.akagiant.deathholding.listeners.onDamage;
 import me.akagiant.deathholding.listeners.onInteract;
-import me.akagiant.deathholding.managers.PlaceholderManager;
+import me.akagiant.deathholding.managers.general.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +27,8 @@ public final class Main extends JavaPlugin {
             Bukkit.getLogger().info("PlaceholderAPI Not Found. You will not be able to use my placeholders externally.");
         }
 
+        getCommand("dh").setExecutor(new command_deathholding(this));
+        getCommand("dh").setTabCompleter(new command_deathholding(this));
 
         getServer().getPluginManager().registerEvents(new onDamage(), this);
         getServer().getPluginManager().registerEvents(new onInteract(), this);

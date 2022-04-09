@@ -1,10 +1,10 @@
-package me.akagiant.deathholding;
+package me.akagiant.deathholding.managers;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public abstract class DeathTimer {
+public abstract class DyingTimer {
 
     private int time;
 
@@ -12,7 +12,7 @@ public abstract class DeathTimer {
     protected final Plugin plugin;
 
 
-    protected DeathTimer(int time, Plugin plugin) {
+    protected DyingTimer(int time, Plugin plugin) {
         this.time = time;
         this.plugin = plugin;
     }
