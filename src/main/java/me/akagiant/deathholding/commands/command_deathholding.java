@@ -31,6 +31,10 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                 return true;
             }
 
+
+            // USAGE: /dh reload
+            // USAGE: /dh give %player% %amt%
+
             Player player = (Player) sender;
 
             if (args.length == 0) {
@@ -57,7 +61,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                             player.sendMessage("Invalid Target");
                             return false;
                         } else
-                            RevivalItemManager.giveRevivalItem(player, target, args[2] != null ? Integer.parseInt(args[2]) : 1);
+                            RevivalItemManager.giveRevivalItem(player, player, args[2] != null ? Integer.parseInt(args[2]) : 1);
                         break;
                     }
                     giveUsage(player);
@@ -79,6 +83,8 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
             }
 
             return true;
+        } else {
+            cmd.getAliases();
         }
         return false;
     }
