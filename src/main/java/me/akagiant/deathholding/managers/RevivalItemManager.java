@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class RevivalManager {
+public class RevivalItemManager {
 
     static FileConfiguration config = Main.config.getConfig();
 

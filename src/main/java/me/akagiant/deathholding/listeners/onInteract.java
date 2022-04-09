@@ -3,10 +3,9 @@ package me.akagiant.deathholding.listeners;
 import me.akagiant.deathholding.Main;
 import me.akagiant.deathholding.managers.CooldownManager;
 import me.akagiant.deathholding.managers.DyingManager;
-import me.akagiant.deathholding.managers.RevivalManager;
+import me.akagiant.deathholding.managers.RevivalItemManager;
 import me.akagiant.deathholding.managers.general.MessageManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -60,7 +59,7 @@ public class onInteract implements Listener {
         if (DyingManager.dyingPlayers.contains(target.getUniqueId())) {
             long timeLeft = System.currentTimeMillis() - cooldownManager.getCooldwon(reviver.getUniqueId());
             if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= CooldownManager.COOLDOWN) {
-                RevivalManager.consumeRevivalItem(reviver);
+                RevivalItemManager.consumeRevivalItem(reviver);
                 DyingManager.revivePlayer(target, reviver);
                 cooldownManager.setCooldown(reviver, System.currentTimeMillis());
             } else {

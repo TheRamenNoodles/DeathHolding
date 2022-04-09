@@ -1,7 +1,7 @@
 package me.akagiant.deathholding.commands;
 
 import me.akagiant.deathholding.Main;
-import me.akagiant.deathholding.managers.RevivalManager;
+import me.akagiant.deathholding.managers.RevivalItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -52,7 +52,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                             player.sendMessage("Invalid Target");
                             return false;
                         } else
-                            RevivalManager.giveRevivalItem(player, player, args[2] != null ? Integer.parseInt(args[2]) : 1);
+                            RevivalItemManager.giveRevivalItem(player, player, args[2] != null ? Integer.parseInt(args[2]) : 1);
                         break;
                     }
                     giveUsage(player);
