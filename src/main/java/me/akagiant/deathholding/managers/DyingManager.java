@@ -1,11 +1,11 @@
 package me.akagiant.deathholding.managers;
 
-import me.akagiant.deathholding.DeathTimer;
 import me.akagiant.deathholding.Main;
+import me.akagiant.deathholding.managers.general.ColorManager;
+import me.akagiant.deathholding.managers.general.MessageManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
@@ -51,8 +51,6 @@ public class DyingManager {
         };
         // END | Adding effects to player
 
-        ArmorStandManager.createStand(player, player.getLocation().add(0, 2, 0), ChatColor.translateAlternateColorCodes('&', "&c&lDYING"));
-
         // Create new armor stand and force the player to be a passenger of the armor stand.
         ArmorStand am2 = ArmorStandManager.createStand(player);
         am2.addPassenger(player);
@@ -65,6 +63,8 @@ public class DyingManager {
         ArmorStandManager.removeStands(target);
         target.setHealth(Main.config.getConfig().getDouble("Revival.Health"));
         dyingPlayers.remove(target.getUniqueId());
+
+        target.teleport(target.getLocation().add(0, 0.5, 0));
 
         // START | PLAY SOUNDS
         Objects.requireNonNull(config.getConfigurationSection("Revival.SoundEffects")).getKeys(false).forEach(key -> {
@@ -80,8 +80,9 @@ public class DyingManager {
         Objects.requireNonNull(config.getConfigurationSection("Revival.PotionEffects")).getKeys(false).forEach(key -> {
             String path = "Revival.PotionEffects." + key;
 
-            if (config.getString(path + key + ".Type") == null) {
+            if (config.getString(path + ".Type") == null) {
                 Bukkit.getLogger().warning("Invalid Potion Effect in Config.yml");
+                return;
             }
 
             PotionEffectType potionEffect = PotionEffectType.getByName(Objects.requireNonNull(config.getString(path + ".Type")));
@@ -101,6 +102,7 @@ public class DyingManager {
     }
 
     public static void killPlayer(Player target) {
+        target.setHealth(0);
         clearEffects(target);
         ArmorStandManager.removeStands(target);
         dyingPlayers.remove(target.getUniqueId());
@@ -112,7 +114,10 @@ public class DyingManager {
     }
 
     static void deathTimer(Player player) {
-        new DeathTimer(60, Main.getPlugin()) {
+        int time = Main.config.getConfig().getInt("Dying.TimeToRevive");
+        ArmorStand am = ArmorStandManager.createStand(player, player.getLocation().add(0, 2, 0), null);
+        am.setCustomNameVisible(true);
+        new DyingTimer(time, Main.getPlugin()) {
             @Override
             public void count(int current) {
                 if (!dyingPlayers.contains(player.getUniqueId())) {
@@ -120,6 +125,9 @@ public class DyingManager {
                     task.cancel();
                 }
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("Time Remaining: " + current + " seconds!"));
+
+                am.setCustomName(ColorManager.format(Main.config.getConfig().getString("Dying.Title") + " " + current).replace("%player_name%", player.getName()));
+
                 if (current == 0) {
                     killPlayer(player);
                 }

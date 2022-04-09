@@ -6,16 +6,19 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class ArmorStandManager {
 
     private static final HashMap<ArmorStand, UUID> stands = new HashMap<>();
 
-    static ArmorStand createStand(Player player, Location loc, String name) {
+    static ArmorStand createStand(Player player, Location loc, @Nullable String name) {
         World world = player.getWorld();
 
         ArmorStand am = (ArmorStand) world.spawnEntity(loc, EntityType.ARMOR_STAND);
+
+        am.addScoreboardTag("deathholding");
 
         if (name != null) {
             am.setCustomName(name);
@@ -23,10 +26,10 @@ public class ArmorStandManager {
         }
 
         am.setGravity(false);
-        am.setInvisible(false);
+        am.setInvisible(true);
         am.setSmall(true);
         am.setMarker(true);
-        am.setInvulnerable(false);
+        am.setInvulnerable(true);
 
         stands.put(am, player.getUniqueId());
 
@@ -49,7 +52,6 @@ public class ArmorStandManager {
             if (entry.getValue().equals(player.getUniqueId())) {
                 playerStands.add(entry.getKey());
             }
-
         }
         return playerStands;
     }
@@ -60,5 +62,4 @@ public class ArmorStandManager {
             stand.remove();
         }
     }
-
 }

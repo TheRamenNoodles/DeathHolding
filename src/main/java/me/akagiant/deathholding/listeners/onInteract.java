@@ -3,8 +3,10 @@ package me.akagiant.deathholding.listeners;
 import me.akagiant.deathholding.Main;
 import me.akagiant.deathholding.managers.CooldownManager;
 import me.akagiant.deathholding.managers.DyingManager;
+import me.akagiant.deathholding.managers.RevivalManager;
 import me.akagiant.deathholding.managers.general.MessageManager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -35,6 +37,7 @@ public class onInteract implements Listener {
             String material = useCustomItem ? config.getString(path + ".custom-item.type") : config.getString(path + ".default-item");
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
+
             if (useCustomItem && item.getType() == Material.valueOf(material)) {
                 ItemMeta meta = item.getItemMeta();
                 if (meta == null) return;
@@ -43,11 +46,11 @@ public class onInteract implements Listener {
                 List<String> requiredItemLore = config.getStringList(path + ".lore");
 
                 if (meta.getDisplayName().equals(requiredItemName) && Objects.equals(meta.getLore(), requiredItemLore)) {
-                    execute(e.getPlayer(), (Player) e.getRightClicked());
+                    execute((Player) e.getRightClicked(), e.getPlayer());
                 }
             } else {
-                if (item.getType() == Material.valueOf(material)) {
-                    execute(e.getPlayer(), (Player) e.getRightClicked());
+                if (item.getType().equals(Material.valueOf(material))) {
+                    execute((Player) e.getRightClicked(), e.getPlayer());
                 }
             }
         }
@@ -57,6 +60,7 @@ public class onInteract implements Listener {
         if (DyingManager.dyingPlayers.contains(target.getUniqueId())) {
             long timeLeft = System.currentTimeMillis() - cooldownManager.getCooldwon(reviver.getUniqueId());
             if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= CooldownManager.COOLDOWN) {
+                RevivalManager.consumeRevivalItem(reviver);
                 DyingManager.revivePlayer(target, reviver);
                 cooldownManager.setCooldown(reviver, System.currentTimeMillis());
             } else {

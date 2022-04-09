@@ -2,10 +2,12 @@ package me.akagiant.deathholding.managers;
 
 import me.akagiant.deathholding.Main;
 import me.akagiant.deathholding.managers.general.ColorManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -48,11 +50,13 @@ public class RevivalManager {
 
     public static void consumeRevivalItem(Player player) {
         ItemStack item = player.getInventory().getItemInMainHand();
-        ItemStack revivalItem = createRevivalItem(1);
 
-        if (item.equals(revivalItem)) {
-            item.setAmount(item.getAmount() - 1);
+        if (player.getInventory().getItemInMainHand().getAmount() == 1) {
+            player.getInventory().getItem(EquipmentSlot.HAND).setAmount(0);
+        } else {
+            player.getInventory().getItemInMainHand().setAmount(item.getAmount() - 1);
         }
+
     }
 
     public static void giveRevivalItem(Player sender, Player player, int amount) {
@@ -62,7 +66,12 @@ public class RevivalManager {
             return;
         }
 
-        player.getInventory().addItem(createRevivalItem(amount));
+        boolean isCustom = Main.config.getConfig().getBoolean("Revival.Item.isCustom");
+        if (isCustom)
+            player.getInventory().addItem(createRevivalItem(amount));
+        else
+            player.getInventory().addItem(new ItemStack(Material.valueOf(Main.config.getConfig().getString("Revival.Item.default-item")), amount));
+
     }
 
 }
