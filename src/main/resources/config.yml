@@ -1,5 +1,17 @@
 # All messages can contain standard chat color features and HEX Colors
 
+NoPermission:
+  ConsoleMessage:
+    Message:
+      - "&8---------------------------"
+      - "&cMissing Permission"
+      - "&ePlayer &8» &f%PlayerName%"
+      - "&ePermission &8» &f%MissingPermission%"
+      - "&8---------------------------"
+  Player:
+    Message:
+      - "&cMissing Permission &8» &c%MissingPermission%"
+
 Revival:
   # The Health a player should have when revived
   Health: 6
@@ -46,7 +58,7 @@ Dying:
   # The title above a player when they are dying
   Title: "&8[&c&lDYING&8] &f%player_name%"
   # How long should a player be "dying" for (seconds)
-  TimeToRevive: 5
+  TimeToRevive: 60
   # The Health a player should have when they go into the dying state
   Health: 6
   # The Sound played when a player is put into the dying state

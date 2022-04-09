@@ -20,7 +20,10 @@ permissions:
       DeathHolding.Cooldown.Bypass: true
       DeathHolding.Reload: true
       DeathHolding.Give: true
+      DeathHolding.Clear: true
 
+  DeathHolding.Clear:
+    description: Allows the user to clear all DeathHolding armor stands from the world.
   DeathHolding.Reload:
     description: Allows the user to reload this plugins config.yml
   DeathHolding.Give:

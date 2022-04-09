@@ -20,7 +20,7 @@ public class MessageManager {
         }
 
         if (target != null) {
-            msg = msg.replace("target_name%", target.getName());
+            msg = msg.replace("%target_name%", target.getName());
             msg = msg.replace("%target_cooldown%", String.valueOf(System.currentTimeMillis() - cooldownManager.getCooldwon(target.getUniqueId())));
             msg = msg.replace("%target_isDying%", String.valueOf(DyingManager.isDying(target)));
         }

@@ -92,11 +92,11 @@ public class DyingManager {
         // END | ADD POTION EFFECTS
 
 
-        for (String str : Main.config.getConfig().getStringList("Revival.toTarget")) {
+        for (String str : Main.config.getConfig().getStringList("Revival.Message.toTarget")) {
             target.sendMessage(MessageManager.internalPlaceholders(reviver, target, str));
         }
 
-        for (String str : Main.config.getConfig().getStringList("Revival.toReviver")) {
+        for (String str : Main.config.getConfig().getStringList("Revival.Message.toReviver")) {
             reviver.sendMessage(MessageManager.internalPlaceholders(reviver, target, str));
         }
     }

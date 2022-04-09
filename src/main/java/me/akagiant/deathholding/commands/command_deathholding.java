@@ -2,6 +2,7 @@ package me.akagiant.deathholding.commands;
 
 import me.akagiant.deathholding.Main;
 import me.akagiant.deathholding.managers.RevivalItemManager;
+import me.akagiant.deathholding.managers.general.PermissionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, String cmdName, String[] args) {
 
-        if (cmdName.equalsIgnoreCase(cmd.getName())) {
+        if (cmdName.equalsIgnoreCase(cmd.getName()) || cmd.getAliases().contains(cmdName)) {
             if (!(sender instanceof Player)) {
                 return true;
             }
@@ -43,9 +44,17 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
 
             switch (args[0]) {
                 case "clear":
+                    if (!player.hasPermission("DeathHolding.Clear")) {
+                        PermissionManager.NoPermission(player, "DeathHolding.Clear");
+                        return false;
+                    }
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=minecraft:armor_stand, tag=deathholding]");
                     break;
                 case "give":
+                    if (!player.hasPermission("DeathHolding.Give")) {
+                        PermissionManager.NoPermission(player, "DeathHolding.Give");
+                        return false;
+                    }
                     if (args.length >= 2) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target == null) {
@@ -58,6 +67,10 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                     giveUsage(player);
                     break;
                 case "reload":
+                    if (!player.hasPermission("DeathHolding.Reload")) {
+                        PermissionManager.NoPermission(player, "DeathHolding.Reload");
+                        return false;
+                    }
                     try {
                         Main.config.reloadConfig();
                         player.sendMessage("Config.yml reloaded!");
@@ -70,6 +83,8 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
             }
 
             return true;
+        } else {
+            cmd.getAliases();
         }
         return false;
     }
