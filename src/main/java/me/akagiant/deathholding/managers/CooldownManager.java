@@ -12,7 +12,7 @@ public class CooldownManager {
     public static final Long COOLDOWN = Main.config.getConfig().getLong("Revival.Cooldown.Time");
 
     public void setCooldown (Player player, Long time) {
-        if (player.hasPermission("DeathHolding.Cooldown.Bypass")) return;
+        if (player.hasPermission("DeathHolding.Cooldown.Bypass")  && Main.usePermissions) return;
 
         if (time < 1) cooldowns.remove(player.getUniqueId());
         else cooldowns.put(player.getUniqueId(), time);

@@ -1,5 +1,22 @@
 # All messages can contain standard chat color features and HEX Colors
 
+# DeathHolding.Clear:
+#  description: Allows the user to clear all DeathHolding armor stands from the world.
+# DeathHolding.Reload:
+#  description: Allows the user to reload this plugins config.yml
+# DeathHolding.Give:
+#  description: Allows the user to give themselves or another user a revival item.
+# DeathHolding.Revive:
+#  description: Bypass the revival stage of this plugin.
+# DeathHolding.Bypass:
+#  description: Needed in order to be able to revive another player.
+# DeathHolding.Cooldown.Bypass:
+#  description: Needed in ordet to bypass the cooldown timer.
+
+Permissions:
+  # If this is true, permissions will be required
+  usePermissions: false
+
 NoPermission:
   ConsoleMessage:
     Message:

@@ -13,13 +13,14 @@ public final class Main extends JavaPlugin {
     static Main plugin;
     public static ConfigManager config;
 
-    // TODO: Add PlaceHolderAPI
+    public static boolean usePermissions;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
         config = new ConfigManager(this, "config");
+        usePermissions = config.getConfig().getBoolean("Permissions.usePermissions");
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderManager().register();

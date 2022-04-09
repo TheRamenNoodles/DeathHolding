@@ -59,7 +59,7 @@ public class onInteract implements Listener {
 
     public void execute(Player target, Player reviver) {
 
-        if (!reviver.hasPermission("DeathHolding.Revive")) {
+        if (!reviver.hasPermission("DeathHolding.Revive") && Main.usePermissions) {
             PermissionManager.NoPermission(reviver, "DeathHolding.Revive");
             return;
         };

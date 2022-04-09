@@ -40,14 +40,14 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
 
             switch (args[0]) {
                 case "clear":
-                    if (!player.hasPermission("DeathHolding.Clear")) {
+                    if (!player.hasPermission("DeathHolding.Clear") && Main.usePermissions) {
                         PermissionManager.NoPermission(player, "DeathHolding.Clear");
                         return false;
                     }
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=minecraft:armor_stand, tag=deathholding]");
                     break;
                 case "give":
-                    if (!player.hasPermission("DeathHolding.Give")) {
+                    if (!player.hasPermission("DeathHolding.Give") && Main.usePermissions) {
                         PermissionManager.NoPermission(player, "DeathHolding.Give");
                         return false;
                     }
@@ -63,7 +63,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                     giveUsage(player);
                     break;
                 case "reload":
-                    if (!player.hasPermission("DeathHolding.Reload")) {
+                    if (!player.hasPermission("DeathHolding.Reload") && Main.usePermissions){
                         PermissionManager.NoPermission(player, "DeathHolding.Reload");
                         return false;
                     }

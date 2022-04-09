@@ -36,7 +36,7 @@ public class DyingManager {
      */
     public static void enterDying(Player player, Player killer) {
 
-        if (player.hasPermission("DeathHolding.Bypass")) {
+        if (player.hasPermission("DeathHolding.Bypass") && Main.usePermissions) {
             player.setHealth(0);
             return;
         }
