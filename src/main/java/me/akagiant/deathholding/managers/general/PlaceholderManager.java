@@ -33,7 +33,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
             // Eco Placeholders
             case "cooldown": return String.valueOf(System.currentTimeMillis() - cooldownManager.getCooldwon(offlinePlayer.getUniqueId()));
             case "isDying": return String.valueOf(DyingManager.isDying((Player) offlinePlayer));
+            default: return null;
         }
-        return null;
     }
 }

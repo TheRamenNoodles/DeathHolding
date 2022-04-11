@@ -80,11 +80,11 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                         e.printStackTrace();
                     }
                     break;
+                default:
+                    sendUsage(player);
             }
 
             return true;
-        } else {
-            cmd.getAliases();
         }
         return false;
     }

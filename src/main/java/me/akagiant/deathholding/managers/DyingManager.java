@@ -51,7 +51,7 @@ public class DyingManager {
 
         for (String str : Main.config.getConfig().getStringList("Died")) {
             player.sendMessage(MessageManager.internalPlaceholders(player, killer, str));
-        };
+        }
         // END | Adding effects to player
 
         // Create new armor stand and force the player to be a passenger of the armor stand.
