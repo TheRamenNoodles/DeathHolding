@@ -1,3 +1,6 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/akagiant/deathholding/badge/master)](https://www.codefactor.io/repository/github/akagiant/deathholding/overview/master)
+
+
 # Provided Information
 A custom death and revival system. On death of a player, the player will be stuck at the location where he died and given blindness. 
 You can achieve this by making them ride an invisible armor stand or similar.
