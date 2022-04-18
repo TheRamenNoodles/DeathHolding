@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -110,6 +111,16 @@ public class DyingManager {
         ArmorStandManager.removeStands(target);
         dyingPlayers.remove(target.getUniqueId());
     }
+
+    public static void killPlayer(Player target, Mob mob) {
+        Bukkit.broadcastMessage(target.getName() + " was killed by " + mob.getName());
+        target.setHealth(0);
+        clearEffects(target);
+        ArmorStandManager.removeStands(target);
+        dyingPlayers.remove(target.getUniqueId());
+    }
+
+
 
     private static void clearEffects(Player player) {
         player.removePotionEffect(PotionEffectType.BLINDNESS);

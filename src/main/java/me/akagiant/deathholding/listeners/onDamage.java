@@ -25,5 +25,12 @@ public class onDamage implements Listener {
                 DyingManager.enterDying(target, ((Player) e.getDamager()).getPlayer());
             }
         }
+
+        if (e.getDamager() instanceof Mob && e.getEntity() instanceof Player) {
+            if (DyingManager.dyingPlayers.contains(e.getEntity().getUniqueId()) && ((Player) e.getEntity()).getHealth() - e.getDamage() <= 0) {
+                e.setCancelled(true);
+                DyingManager.killPlayer((Player) e.getEntity(), (Mob) e.getDamager());
+            }
+        }
     }
 }
