@@ -31,7 +31,7 @@ public class onInteract implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent e) {
-        if (e.getRightClicked() instanceof Player && e.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR) {
+        if (e.getRightClicked() instanceof Player) {
             String path = "Revival.Item";
 
             boolean useCustomItem = config.getBoolean(path + ".isCustom");
@@ -39,15 +39,15 @@ public class onInteract implements Listener {
             String material = useCustomItem ? config.getString(path + ".custom-item.type") : config.getString(path + ".default-item");
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
-            if (useCustomItem && item.getType() == Material.valueOf(material)) {
+            if (useCustomItem && item.getType().equals(Material.valueOf(material))) {
+                Bukkit.getLogger().info("yes");
                 ItemMeta meta = item.getItemMeta();
-                if (meta == null) return;
 
-                String requiredItemName = config.getString(path + ".displayName");
-                List<String> requiredItemLore = config.getStringList(path + ".lore");
+                String requiredItemName = config.getString(path + ".custom-item.displayName");
+                Bukkit.getLogger().info(requiredItemName + " " + meta.getDisplayName());
 
-                if (meta.getDisplayName().equals(requiredItemName) && Objects.equals(meta.getLore(), requiredItemLore)) {
-                    execute(Objects.requireNonNull(((Player) e.getRightClicked()).getPlayer()), e.getPlayer());
+                if (meta.getDisplayName().replace("§", "&").equals(requiredItemName)) {
+                    execute(((Player) e.getRightClicked()).getPlayer(), e.getPlayer());
                 }
             } else {
                 if (item.getType().equals(Material.valueOf(material))) {
@@ -62,7 +62,7 @@ public class onInteract implements Listener {
         if (!reviver.hasPermission("DeathHolding.Revive") && Main.usePermissions) {
             PermissionManager.NoPermission(reviver, "DeathHolding.Revive");
             return;
-        };
+        }
 
         if (DyingManager.dyingPlayers.contains(target.getUniqueId())) {
             long timeLeft = System.currentTimeMillis() - cooldownManager.getCooldwon(reviver.getUniqueId());

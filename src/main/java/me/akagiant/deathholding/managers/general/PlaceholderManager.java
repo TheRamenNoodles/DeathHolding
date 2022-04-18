@@ -31,7 +31,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
         switch(params.toLowerCase()) {
             // Eco Placeholders
-            case "cooldown": return String.valueOf(System.currentTimeMillis() - cooldownManager.getCooldwon(offlinePlayer.getUniqueId()));
+            case "cooldown": return String.valueOf(cooldownManager.getCooldwon(offlinePlayer.getUniqueId()) - System.currentTimeMillis());
             case "isDying": return String.valueOf(DyingManager.isDying((Player) offlinePlayer));
             default: return null;
         }

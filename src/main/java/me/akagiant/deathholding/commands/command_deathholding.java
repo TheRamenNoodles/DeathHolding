@@ -31,10 +31,6 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-
-            // USAGE: /dh reload
-            // USAGE: /dh give %player% %amt%
-
             Player player = (Player) sender;
 
             if (args.length == 0) {
@@ -46,20 +42,20 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                 case "clear":
                     if (!player.hasPermission("DeathHolding.Clear") && Main.usePermissions) {
                         PermissionManager.NoPermission(player, "DeathHolding.Clear");
-                        return false;
+                        break;
                     }
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=minecraft:armor_stand, tag=deathholding]");
                     break;
                 case "give":
                     if (!player.hasPermission("DeathHolding.Give") && Main.usePermissions) {
                         PermissionManager.NoPermission(player, "DeathHolding.Give");
-                        return false;
+                        break;
                     }
                     if (args.length >= 2) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target == null) {
                             player.sendMessage("Invalid Target");
-                            return false;
+                            break;
                         } else
                             RevivalItemManager.giveRevivalItem(player, player, args[2] != null ? Integer.parseInt(args[2]) : 1);
                         break;
@@ -69,7 +65,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                 case "reload":
                     if (!player.hasPermission("DeathHolding.Reload") && Main.usePermissions){
                         PermissionManager.NoPermission(player, "DeathHolding.Reload");
-                        return false;
+                        break;
                     }
                     try {
                         Main.config.reloadConfig();
@@ -83,7 +79,6 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
                 default:
                     sendUsage(player);
             }
-
             return true;
         }
         return false;
