@@ -133,6 +133,7 @@ public class command_deathholding implements CommandExecutor, TabCompleter {
             result.clear();
             return result;
         }
+if ur a gay then say that return 
 
         return null;
     }
